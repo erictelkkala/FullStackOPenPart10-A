@@ -1,29 +1,166 @@
-import {Text, View} from "react-native";
+import {Image, StyleSheet, Text, View} from "react-native";
+
+const styles =StyleSheet.create({
+	container: {
+		flexDirection: "column",
+		flexGrow: 0,
+		padding: 15,
+		backgroundColor: "white"
+	}
+})
+
+const ItemHeaderStyles = StyleSheet.create({
+	repositoryPicture: {
+		width: 60,
+		height: 60,
+		borderRadius: 10,
+		padding: 10
+	},
+	pictureContainer: {
+		flexGrow: 0,
+		paddingRight: 15
+	},
+	itemHeaderContainer: {
+		flexDirection: 'row',
+		flexShrink: 1
+	},
+	itemHeaderName: {
+		fontWeight: "bold",
+		fontSize: 15
+	},
+	itemHeaderDescription: {
+		color: '#5e5958',
+		flexWrap: "wrap",
+		flexShrink: 1
+	},
+	textContainer: {
+		justifyContent: "space-around",
+		flexDirection: "column",
+		flexShrink: 1
+	},
+	languageBlock : {
+		//Align the block to start at the same point as the name and description
+		paddingLeft: 75,
+		paddingTop: 10,
+		flexDirection: "row"
+	},
+	languageBlockText : {
+		backgroundColor: "#0366d6",
+		borderRadius: 5,
+		paddingLeft: 5,
+		paddingRight: 5,
+		paddingTop: 2.5,
+		paddingBottom: 2.5,
+		color: "white",
+	}
+})
+
+const StatStyles = StyleSheet.create({
+	statsContainer: {
+		flexDirection: "row",
+		justifyContent: "space-evenly",
+		paddingTop: 10
+	},
+	valueContainer: {
+		flexDirection: "column",
+		justifyContent: "center",
+		alignItems: "center"
+	},
+	statValue: {
+		fontWeight: "bold",
+
+	}
+})
+
+const RepositoryItemHeader = ({item}) => {
+	return (
+		<View style={ItemHeaderStyles.itemHeaderContainer}>
+			<View style={ItemHeaderStyles.pictureContainer}>
+				<Image style={ItemHeaderStyles.repositoryPicture} source={{uri: item.ownerAvatarUrl}} />
+			</View>
+			<View style={ItemHeaderStyles.textContainer}>
+				<Text style={ItemHeaderStyles.itemHeaderName}>
+					{item.fullName}
+				</Text>
+				<Text style={ItemHeaderStyles.itemHeaderDescription}>
+					{item.description}
+				</Text>
+			</View>
+		</View>
+	)
+}
+
+const LanguageBlock = ({language}) => {
+	return (
+		<View style={ItemHeaderStyles.languageBlock}>
+			<Text style={ItemHeaderStyles.languageBlockText}>
+				{language}
+			</Text>
+		</View>
+	)
+}
+
+const RepositoryStats = ({item}) => {
+	let stargazers = 0;
+	let forks = 0;
+
+	//If there is more than 1000 startgazers, divide the number by 1000 for a better format later on
+	if (item.stargazersCount > 1000) {
+		stargazers = item.stargazersCount/1000
+	} else {
+		stargazers = item.stargazersCount
+	}
+
+	//Do the same for forks
+	if (item.forksCount > 1000) {
+		forks = item.forksCount/1000
+	} else {
+		forks = item.forksCount
+	}
+	return (
+		<View style={StatStyles.statsContainer}>
+			<View style={StatStyles.valueContainer}>
+				<Text style={StatStyles.statValue}>
+					{stargazers.toFixed(1)}k
+				</Text>
+				<Text>
+					Stars
+				</Text>
+			</View>
+			<View style={StatStyles.valueContainer}>
+				<Text style={StatStyles.statValue}>
+					{forks.toFixed(1)}k
+				</Text>
+				<Text>
+					Forks
+				</Text>
+			</View>
+			<View style={StatStyles.valueContainer}>
+				<Text style={StatStyles.statValue}>
+					{item.reviewCount}
+				</Text>
+				<Text>
+					Reviews
+				</Text>
+			</View>
+			<View style={StatStyles.valueContainer}>
+				<Text style={StatStyles.statValue}>
+					{item.ratingAverage}
+				</Text>
+				<Text>
+					Rating
+				</Text>
+			</View>
+		</View>
+	)
+}
 
 const RepositoryItem = ({item}) => {
 	return (
-		<View>
-			<Text>
-				Full Name: {item.fullName}
-			</Text>
-			<Text>
-				Description: {item.description}
-			</Text>
-			<Text>
-				Language: {item.language}
-			</Text>
-			<Text>
-				Stars: {item.stargazersCount}
-			</Text>
-			<Text>
-				Forks: {item.forksCount}
-			</Text>
-			<Text>
-				Reviews: {item.reviewCount}
-			</Text>
-			<Text>
-				Rating: {item.ratingAverage}
-			</Text>
+		<View style={styles.container}>
+			<RepositoryItemHeader item={item} />
+			<LanguageBlock language={item.language} />
+			<RepositoryStats item={item} />
 		</View>
 	)
 }
