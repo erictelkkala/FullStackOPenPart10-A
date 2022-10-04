@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "TaskARepo",
-    "slug": "TaskARepo",
+    "name": "Rate-Repositories",
+    "slug": "Rate-Repositories",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
