@@ -1,4 +1,5 @@
-import {Image, StyleSheet, Text, View} from "react-native";
+import {Image, StyleSheet, View} from "react-native";
+import Text from "./Text"
 
 const styles =StyleSheet.create({
 	container: {
@@ -22,15 +23,6 @@ const ItemHeaderStyles = StyleSheet.create({
 	},
 	itemHeaderContainer: {
 		flexDirection: 'row',
-		flexShrink: 1
-	},
-	itemHeaderName: {
-		fontWeight: "bold",
-		fontSize: 15
-	},
-	itemHeaderDescription: {
-		color: '#5e5958',
-		flexWrap: "wrap",
 		flexShrink: 1
 	},
 	textContainer: {
@@ -65,10 +57,6 @@ const StatStyles = StyleSheet.create({
 		flexDirection: "column",
 		justifyContent: "center",
 		alignItems: "center"
-	},
-	statValue: {
-		fontWeight: "bold",
-
 	}
 })
 
@@ -79,10 +67,10 @@ const RepositoryItemHeader = ({item}) => {
 				<Image style={ItemHeaderStyles.repositoryPicture} source={{uri: item.ownerAvatarUrl}} />
 			</View>
 			<View style={ItemHeaderStyles.textContainer}>
-				<Text style={ItemHeaderStyles.itemHeaderName}>
+				<Text fontWeight={"bold"} fontSize={"subheading"}>
 					{item.fullName}
 				</Text>
-				<Text style={ItemHeaderStyles.itemHeaderDescription}>
+				<Text color={"textSecondary"}>
 					{item.description}
 				</Text>
 			</View>
@@ -120,7 +108,7 @@ const RepositoryStats = ({item}) => {
 	return (
 		<View style={StatStyles.statsContainer}>
 			<View style={StatStyles.valueContainer}>
-				<Text style={StatStyles.statValue}>
+				<Text fontWeight={"bold"} color={"textPrimary"}>
 					{stargazers.toFixed(1)}k
 				</Text>
 				<Text>
@@ -128,7 +116,7 @@ const RepositoryStats = ({item}) => {
 				</Text>
 			</View>
 			<View style={StatStyles.valueContainer}>
-				<Text style={StatStyles.statValue}>
+				<Text fontWeight={"bold"} color={"textPrimary"}>
 					{forks.toFixed(1)}k
 				</Text>
 				<Text>
@@ -136,7 +124,7 @@ const RepositoryStats = ({item}) => {
 				</Text>
 			</View>
 			<View style={StatStyles.valueContainer}>
-				<Text style={StatStyles.statValue}>
+				<Text fontWeight={"bold"} color={"textPrimary"}>
 					{item.reviewCount}
 				</Text>
 				<Text>
@@ -144,7 +132,7 @@ const RepositoryStats = ({item}) => {
 				</Text>
 			</View>
 			<View style={StatStyles.valueContainer}>
-				<Text style={StatStyles.statValue}>
+				<Text fontWeight={"bold"} color={"textPrimary"}>
 					{item.ratingAverage}
 				</Text>
 				<Text>
