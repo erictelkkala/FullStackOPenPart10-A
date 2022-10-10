@@ -1,10 +1,23 @@
-import { TextInput as NativeTextInput} from 'react-native';
+import {StyleSheet, TextInput as NativeTextInput} from 'react-native';
 
-// eslint-disable-next-line no-unused-vars
 const TextInput = ({ style, error, ...props }) => {
 	const textInputStyle = [style];
+	const styles = StyleSheet.create({
+		errorStyle: {
+			borderColor: 'red'
+		}
+	})
 
-	return <NativeTextInput style={textInputStyle} {...props} />;
+	// If there are no errors, return the InputField without error styling
+	if (!error) {
+		return (
+			<NativeTextInput style={textInputStyle} {...props} />
+		)
+	} else {
+		return (
+			<NativeTextInput style={[textInputStyle, styles.errorStyle]} {...props} />
+		)
+	}
 };
 
 export default TextInput;
