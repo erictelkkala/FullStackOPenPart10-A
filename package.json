@@ -13,6 +13,7 @@
     "@apollo/client": "^3.7.0",
     "@expo/metro-config": "^0.4.0",
     "@expo/webpack-config": "^0.17.0",
+    "dotenv": "^16.0.3",
     "expo": "~46.0.13",
     "expo-constants": "^13.2.4",
     "expo-status-bar": "~1.4.0",
