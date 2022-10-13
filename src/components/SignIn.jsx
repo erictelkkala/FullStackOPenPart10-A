@@ -6,7 +6,7 @@ import theme from "../theme";
 import * as yup from 'yup';
 
 import useSignIn from "../hooks/useSignIn";
-import authStorage from "../utils/authStorage";
+import { useNavigate } from "react-router-native";
 
 
 const validationSchema = yup.object().shape({
@@ -58,17 +58,19 @@ const SignInForm = ({onSubmit}) => {
 const SignIn = () => {
 	// Declare the hook
 	const [signIn] = useSignIn();
-	// Create a new authStorage instance with a namespace
-	const authStorageInstance = new authStorage('auth');
+	// useNavigate hook
+	const navigate = useNavigate();
+
+
 
 	const onSubmit = async (values) => {
 		// Get the username and password from the values
 		const {username, password} = values;
 		try {
 			// Try to sign in
-			const data = await signIn({ username, password });
-			// Store the token in the authStorage
-			await authStorageInstance.setAccessToken(data.authenticate.accessToken);
+			await signIn({ username, password });
+			// Navigate to the main page on a successful sign in
+			navigate('/');
 		} catch (e) {
 			console.log(e);
 		}
