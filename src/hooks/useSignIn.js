@@ -1,12 +1,14 @@
 import {useApolloClient, useMutation} from "@apollo/client";
-import {GET_USER_TOKEN} from "../graphql/queries";
 import useAuthStorage from '../hooks/useAuthStorage';
+import {GET_USER_TOKEN} from "../graphql/mutations";
 
 
 const useSignIn = () => {
 	const authStorage = useAuthStorage();
 
-	const [mutate, result] = useMutation(GET_USER_TOKEN);
+	const [mutate, result] = useMutation(GET_USER_TOKEN, {
+		fetchPolicy: 'no-cache',
+	});
 
 	// useApolloClient hook
 	const apolloClient = useApolloClient();
