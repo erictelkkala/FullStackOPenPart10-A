@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import {gql} from '@apollo/client';
 
 export const GET_REPOSITORIES = gql`
     query GetRepositories {
@@ -19,10 +19,11 @@ export const GET_REPOSITORIES = gql`
     }
 `;
 
-export const GET_USER_TOKEN = gql`
-	mutation SignIn($username: String!, $password: String!) {
-		authenticate(credentials: { username: $username, password: $password }) {
-			accessToken
+export const GET_USER = gql`
+	query GetAuthorizedUser {
+		me {
+			id
+			username
 		}
 	}
 `;

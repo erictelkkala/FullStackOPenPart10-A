@@ -7,25 +7,19 @@ const useRepositories = () => {
 	const {data, error, loading} = useQuery(GET_REPOSITORIES)
 
 
-	const fetchRepositories = async () => {
-		try {
-			setRepositories(data);
-		} catch (e) {
-			console.log(e);
+	// Wait for data to be fetched before rendering
+	useEffect(() => {
+		if (!loading && !error) {
+			try {
+				setRepositories(data);
+			} catch (e) {
+				console.log(e);
+			}
 		}
-	};
+	}, [loading, error, data]);
+	
 
-	useEffect(() => {
-		data ? setRepositories(data.repositories) : null
-	}, [data])
-
-	useEffect(() => {
-		fetchRepositories();
-		// Seems like ESLint doesn't like useEffect with an empty dependency array
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
-
-	return { repositories, loading, error, refetch: fetchRepositories };
+	return { repositories, loading, error};
 };
 
 export default useRepositories;
