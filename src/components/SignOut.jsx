@@ -1,10 +1,9 @@
-import useAuthStorage from "../hooks/useAuthStorage";
-import {Alert, Pressable} from "react-native";
-import apolloClient from "../utils/apolloClient";
+import {Pressable} from "react-native";
 import Text from "./Text";
 import {StyleSheet} from "react-native";
 import theme from "../theme";
 import {useNavigate} from "react-router-native";
+import useSignOut from "../hooks/useSignOut";
 
 const styles = StyleSheet.create({
 	submitButton: {
@@ -18,24 +17,21 @@ const styles = StyleSheet.create({
 });
 
 const SignOut = () => {
-const authStorage = useAuthStorage();
-const navigate = useNavigate();
-const client = apolloClient();
-const signOut = async () => {
-	try{
-		await authStorage.removeAccessToken();
-		await client.resetStore();
+	const navigate = useNavigate();
+	// Sign out hook
+	const signOutHook = useSignOut();
+	const signOut = async () => {
+		console.log("Signing out...");
+		await signOutHook();
+		// Navigate to the home page
 		navigate("/");
-		} catch (e) {
-			Alert.alert(e.message);
-		}
-};
+	};
 
-return (
-	<Pressable onPress={signOut} style={styles.submitButton}>
-		<Text fontSize={"subheading"} style={{marginVertical: 10, color: "white"}}>Sign out</Text>
-	</Pressable>
-);
+	return (
+		<Pressable onPress={signOut} style={styles.submitButton}>
+			<Text fontSize={"subheading"} style={{marginVertical: 10, color: "white"}}>Sign out</Text>
+		</Pressable>
+	);
 };
 
 export default SignOut;

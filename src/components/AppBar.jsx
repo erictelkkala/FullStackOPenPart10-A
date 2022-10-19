@@ -16,7 +16,10 @@ const styles = StyleSheet.create({
 
 const AppBar = () => {
 	// Get the authorized user
-	const { data } = useQuery(GET_USER);
+	// Also this needs to be updated when the user signs in or out
+	const {data} = useQuery(GET_USER, {
+		fetchPolicy: 'cache-and-network',
+	});
 
 	return (
 		<View style={styles.container}>
