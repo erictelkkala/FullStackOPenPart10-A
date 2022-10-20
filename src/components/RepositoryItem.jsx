@@ -62,7 +62,7 @@ const StatStyles = StyleSheet.create({
 
 const RepositoryItemHeader = ({item}) => {
 	return (
-		<View style={ItemHeaderStyles.itemHeaderContainer}>
+		<View style={ItemHeaderStyles.itemHeaderContainer} testID={"repositoryItemHeader"}>
 			<View style={ItemHeaderStyles.pictureContainer}>
 				<Image style={ItemHeaderStyles.repositoryPicture} source={{uri: item.ownerAvatarUrl}} />
 			</View>
@@ -80,7 +80,7 @@ const RepositoryItemHeader = ({item}) => {
 
 const LanguageBlock = ({language}) => {
 	return (
-		<View style={ItemHeaderStyles.languageBlock}>
+		<View style={ItemHeaderStyles.languageBlock} testID={"repositoryItemLanguage"}>
 			<Text style={ItemHeaderStyles.languageBlockText}>
 				{language}
 			</Text>
@@ -106,7 +106,7 @@ const RepositoryStats = ({item}) => {
 		forks = item.forksCount
 	}
 	return (
-		<View style={StatStyles.statsContainer}>
+		<View style={StatStyles.statsContainer} testID={"RepositoryItemStats"}>
 			<View style={StatStyles.valueContainer}>
 				<Text fontWeight={"bold"} color={"textPrimary"}>
 					{stargazers.toFixed(1)}k
@@ -145,7 +145,7 @@ const RepositoryStats = ({item}) => {
 
 const RepositoryItem = ({item}) => {
 	return (
-		<View style={styles.container}>
+		<View style={styles.container} testID={"repositoryItem"}>
 			<RepositoryItemHeader item={item} />
 			<LanguageBlock language={item.language} />
 			<RepositoryStats item={item} />
