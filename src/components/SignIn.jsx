@@ -9,7 +9,7 @@ import useSignIn from "../hooks/useSignIn";
 import { useNavigate } from "react-router-native";
 
 
-const validationSchema = yup.object().shape({
+export const validationSchema = yup.object().shape({
 	username: yup
 		.string()
 		.min(3, 'The username must be at least 3 characters long')
@@ -43,12 +43,12 @@ const styles = StyleSheet.create({
 	}
 })
 
-const SignInForm = ({onSubmit}) => {
+export const SignInForm = ({onSubmit}) => {
 	return (
-		<View style={styles.formContainer} fullwidth>
-			<FormikTextInput name={"username"} placeholder={"Username"} style={styles.inputField}/>
-			<FormikTextInput name={"password"} placeholder={"Password"} style={styles.inputField} secureTextEntry />
-			<Pressable onPress={onSubmit} style={styles.submitButton}>
+		<View style={styles.formContainer} fullwidth testID={"SignInForm"}>
+			<FormikTextInput name={"username"} placeholder={"Username"} style={styles.inputField} testID={"usernameInput"}/>
+			<FormikTextInput name={"password"} placeholder={"Password"} style={styles.inputField} secureTextEntry testID={"passwordInput"}/>
+			<Pressable onPress={onSubmit} style={styles.submitButton} testID={"submitButton"}>
 				<Text fontSize={"subheading"} style={{marginVertical: 10, color: "white"}}>Sign in</Text>
 			</Pressable>
 		</View>
