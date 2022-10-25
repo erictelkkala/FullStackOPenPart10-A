@@ -11,7 +11,7 @@ const useRepositories = () => {
 	useEffect(() => {
 		if (!loading && !error) {
 			try {
-				setRepositories(data);
+				setRepositories(data.repositories);
 			} catch (e) {
 				console.log(e);
 			}

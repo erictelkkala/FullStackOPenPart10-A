@@ -61,8 +61,6 @@ const SignIn = () => {
 	// useNavigate hook
 	const navigate = useNavigate();
 
-
-
 	const onSubmit = async (values) => {
 		// Get the username and password from the values
 		const {username, password} = values;
