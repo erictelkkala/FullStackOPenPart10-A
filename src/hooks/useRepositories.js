@@ -6,7 +6,6 @@ const useRepositories = () => {
 	const [repositories, setRepositories] = useState();
 	const {data, error, loading} = useQuery(GET_REPOSITORIES)
 
-
 	// Wait for data to be fetched before rendering
 	useEffect(() => {
 		if (!loading && !error) {

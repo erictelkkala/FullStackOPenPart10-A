@@ -1,5 +1,7 @@
-import {Image, StyleSheet, View} from "react-native";
+import {Image, Pressable, StyleSheet, View} from "react-native";
 import Text from "./Text"
+import { useNavigate} from "react-router-native";
+import theme from "../theme";
 
 const styles =StyleSheet.create({
 	container: {
@@ -37,7 +39,7 @@ const ItemHeaderStyles = StyleSheet.create({
 		flexDirection: "row"
 	},
 	languageBlockText : {
-		backgroundColor: "#0366d6",
+		backgroundColor: theme.colors.primary,
 		borderRadius: 5,
 		paddingLeft: 5,
 		paddingRight: 5,
@@ -60,25 +62,28 @@ const StatStyles = StyleSheet.create({
 	}
 })
 
-const RepositoryItemHeader = ({item}) => {
+export const RepositoryItemHeader = ({item}) => {
+	const navigate = useNavigate();
 	return (
-		<View style={ItemHeaderStyles.itemHeaderContainer} testID={"repositoryItemHeader"}>
-			<View style={ItemHeaderStyles.pictureContainer}>
-				<Image style={ItemHeaderStyles.repositoryPicture} source={{uri: item.ownerAvatarUrl}} />
+		<Pressable onPress={() => navigate(`/${item.id}`)}>
+			<View style={ItemHeaderStyles.itemHeaderContainer} testID={"repositoryItemHeader"}>
+				<View style={ItemHeaderStyles.pictureContainer}>
+					<Image style={ItemHeaderStyles.repositoryPicture} source={{uri: item.ownerAvatarUrl}} />
+				</View>
+				<View style={ItemHeaderStyles.textContainer}>
+					<Text fontWeight={"bold"} fontSize={"subheading"}>
+						{item.fullName}
+					</Text>
+					<Text color={"textSecondary"}>
+						{item.description}
+					</Text>
+				</View>
 			</View>
-			<View style={ItemHeaderStyles.textContainer}>
-				<Text fontWeight={"bold"} fontSize={"subheading"}>
-					{item.fullName}
-				</Text>
-				<Text color={"textSecondary"}>
-					{item.description}
-				</Text>
-			</View>
-		</View>
+		</Pressable>
 	)
 }
 
-const LanguageBlock = ({language}) => {
+export const LanguageBlock = ({language}) => {
 	return (
 		<View style={ItemHeaderStyles.languageBlock} testID={"repositoryItemLanguage"}>
 			<Text style={ItemHeaderStyles.languageBlockText}>
@@ -88,7 +93,7 @@ const LanguageBlock = ({language}) => {
 	)
 }
 
-const RepositoryStats = ({item}) => {
+export const RepositoryStats = ({item}) => {
 	let stargazers = 0;
 	let forks = 0;
 
