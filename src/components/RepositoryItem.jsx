@@ -63,9 +63,8 @@ const StatStyles = StyleSheet.create({
 })
 
 export const RepositoryItemHeader = ({item}) => {
-	const navigate = useNavigate();
+
 	return (
-		<Pressable onPress={() => navigate(`/${item.id}`)}>
 			<View style={ItemHeaderStyles.itemHeaderContainer} testID={"repositoryItemHeader"}>
 				<View style={ItemHeaderStyles.pictureContainer}>
 					<Image style={ItemHeaderStyles.repositoryPicture} source={{uri: item.ownerAvatarUrl}} />
@@ -79,7 +78,6 @@ export const RepositoryItemHeader = ({item}) => {
 					</Text>
 				</View>
 			</View>
-		</Pressable>
 	)
 }
 
@@ -149,9 +147,12 @@ export const RepositoryStats = ({item}) => {
 }
 
 const RepositoryItem = ({item}) => {
+	const navigate = useNavigate();
 	return (
 		<View style={styles.container} testID={"repositoryItem"}>
-			<RepositoryItemHeader item={item} />
+			<Pressable onPress={() => navigate(`/${item.id}`)}>
+				<RepositoryItemHeader item={item} />
+			</Pressable>
 			<LanguageBlock language={item.language} />
 			<RepositoryStats item={item} />
 		</View>

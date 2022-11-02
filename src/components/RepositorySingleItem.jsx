@@ -67,6 +67,7 @@ const ReviewItem = ({review}) => {
 
 
 const RepositoryInfo = ({item}) => {
+
 	return (
 		<View style={styles.container} testID={"repositoryItem"}>
 			<RepositoryItemHeader item={item} />
