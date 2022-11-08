@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
 		marginVertical: 10,
 		height: 35,
 		padding: 10,
+		placeholderTextColor: theme.colors.textSecondary
 	}
 })
 
