@@ -32,7 +32,7 @@ const initialValues = {
 }
 
 // This component is used to display an error message
-const ErrorMessage = (errorMessage) => {
+export const ErrorMessage = (errorMessage) => {
     // console.log(errorMessage);
     return (
         <View style={styles.errorContainer}>
