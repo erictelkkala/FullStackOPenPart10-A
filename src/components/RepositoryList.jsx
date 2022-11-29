@@ -4,6 +4,9 @@ import useRepositories from "../hooks/useRepositories";
 import Text from "./Text";
 import { Picker } from '@react-native-picker/picker';
 import { useState } from 'react';
+import { Searchbar } from 'react-native-paper';
+import { useDebounce } from 'use-debounce';
+import React from 'react';
 
 const styles = StyleSheet.create({
 	separator: {
@@ -13,74 +16,94 @@ const styles = StyleSheet.create({
 
 export const ItemSeparator = () => <View style={styles.separator} />;
 
-export const RepositoryListContainer = ({ repositories, OrderBy }) => {
-	// console.log(repositories);
-	const repositoryNodes = repositories
-		? repositories.edges.map(edge => edge.node)
+export class RepositoryListContainer extends React.Component {
+	renderHeader = () => {
+		return (
+			<View>
+				<Searchbar
+					placeholder="Search"
+					onChangeText={this.props.setSearchQuery}
+					value={this.props.searchQuery}
+				/>
+				<Picker
+					testID='orderByPicker'
+					selectedValue={this.props.selectedValue}
+					onValueChange={this.props.onSort}
+				>
+					<Picker.Item label="Latest repositories" value="Latest" />
+					<Picker.Item label="Highest rated repositories" value="Highest" />
+					<Picker.Item label="Lowest rated repositories" value="Lowest" />
+				</Picker>
+			</View>
+		);
+	};
+
+	repositoryNodes = () => {
+		const props = this.props;
+		// console.log(repositories);
+		const repositoryNodes = props.repositories
+		? props.repositories.edges.map(edge => edge.node)
 		: [];
 
-	// console.log('repositoryNodes:', repositoryNodes);
+		return ({repositoryNodes});
+		// console.log('repositoryNodes:', repositoryNodes);
+	};
 
-	return (
-		// Render the list of repositories
-		// Set the key to the fullName of the repository
-		<FlatList
-			data={repositoryNodes}
-			ListHeaderComponent={OrderBy}
-			ItemSeparatorComponent={ItemSeparator}
-			renderItem={({ item }) => <RepositoryItem item={item} />}
-			keyExtractor={item => item.fullName}
-		/>
-	);
+	render() {
+		return (
+			// Render the list of repositories
+			// Set the key to the fullName of the repository
+			<FlatList
+				data={this.repositoryNodes().repositoryNodes}
+				ListHeaderComponent={this.renderHeader}
+				ItemSeparatorComponent={ItemSeparator}
+				renderItem={({ item }) => <RepositoryItem item={item} />}
+				keyExtractor={item => item.fullName}
+			/>
+		);
+	}
 }
 
 const RepositoryList = () => {
 	const [selectedValue, setSelectedValue] = useState("Latest");
 	const [orderBy, setOrderBy] = useState(["CREATED_AT", "DESC"]);
+	const [searchQuery, setSearchQuery] = useState('');
+	const [debouncedSearchQuery] = useDebounce(searchQuery, 500);
 
 	// Query the API with arguments
-	const { repositories, loading } = useRepositories({ orderBy: orderBy[0], orderDirection: orderBy[1] });
+	const { repositories, loading } = useRepositories({ orderBy: orderBy[0], orderDirection: orderBy[1], searchKeyword: debouncedSearchQuery });
 	// console.log(repositories);
 
-
-	// OrderBy component
-	const OrderBy = () => {
-		return (
-			<Picker
-				testID='orderByPicker'
-				selectedValue={selectedValue}
-				onValueChange={(itemValue) => {
-					// Set the selected value
-					setSelectedValue(itemValue);
-					// Set the order with a case statement
-					switch (itemValue) {
-						case 'Latest':
-							setOrderBy(["CREATED_AT", "DESC"]);
-							break;
-						case 'Highest':
-							setOrderBy(["RATING_AVERAGE", "DESC"]);
-							break;
-						case 'Lowest':
-							setOrderBy(["RATING_AVERAGE", "ASC"]);
-							break;
-						default:
-							setOrderBy(["CREATED_AT", "DESC"]);
-							break;
-					}
-				}}
-			>
-				<Picker.Item label="Latest repositories" value="Latest" />
-				<Picker.Item label="Highest rated repositories" value="Highest" />
-				<Picker.Item label="Lowest rated repositories" value="Lowest" />
-			</Picker>
-		);
-	};
 
 	// Wait for the data to be fetched
 	if (loading && !repositories) {
 		return <Text>Loading...</Text>;
 	} else {
-		return <RepositoryListContainer repositories={repositories} OrderBy={OrderBy}/>;
+		return <RepositoryListContainer
+			repositories={repositories}
+			searchQuery={searchQuery}
+			setSearchQuery={setSearchQuery}
+			selectedValue={selectedValue}
+			onSort={(itemValue) => {
+				// Set the selected value
+				setSelectedValue(itemValue);
+				// Set the order with a case statement
+				switch (itemValue) {
+					case 'Latest':
+						setOrderBy(["CREATED_AT", "DESC"]);
+						break;
+					case 'Highest':
+						setOrderBy(["RATING_AVERAGE", "DESC"]);
+						break;
+					case 'Lowest':
+						setOrderBy(["RATING_AVERAGE", "ASC"]);
+						break;
+					default:
+						setOrderBy(["CREATED_AT", "DESC"]);
+						break;
+				}
+			}}
+		/>;
 	}
 };
 
