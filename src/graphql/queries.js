@@ -31,7 +31,7 @@ export const GET_USER = gql`
 `;
 
 export const GET_SINGLE_REPOSITORY = gql`
-	query GetSingleRepository($id: ID!) {
+	query GetSingleRepository($id: ID!, $first: Int, $after: String) {
 		repository(id: $id) {
 			fullName
 			reviewCount
@@ -42,7 +42,8 @@ export const GET_SINGLE_REPOSITORY = gql`
 			description
 			language
 			url
-			reviews {
+			reviews (first: $first, after: $after) {
+				totalCount
       			edges {
         			node {
         				id
@@ -54,7 +55,13 @@ export const GET_SINGLE_REPOSITORY = gql`
             				id
           				}
         			}
+					cursor
       			}
+				pageInfo {
+					endCursor
+					startCursor
+					hasNextPage
+				}
     		}
 		}
 	}

@@ -81,10 +81,16 @@ const RepositoryInfo = ({item}) => {
 	)
 }
 
-const RepositoryItem = ({item}) => {
+const RepositoryItem = ({item, fetchMore}) => {
+
 	const reviews = item
 		? item.reviews.edges.map(edge => edge.node)
 		: [];
+
+	const onEndReach = () => {
+		// console.log("End of the list reached");
+		fetchMore();
+	};
 
 	return (
 		<FlatList
@@ -93,6 +99,8 @@ const RepositoryItem = ({item}) => {
 			keyExtractor={({ id }) => id}
 			ListHeaderComponent={() => <RepositoryInfo item={item} />}
 			ItemSeparatorComponent={ItemSeparator}
+			onEndReached={onEndReach}
+			onEndReachedThreshold={0.5}
 		/>
 	)
 }

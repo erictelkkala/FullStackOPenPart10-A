@@ -4,7 +4,7 @@ import {useQuery} from "@apollo/client";
 
 const useRepositories = ({orderBy, orderDirection, searchKeyword}) => {
 	const [repositories, setRepositories] = useState();
-	const {data, error, loading} = useQuery(GET_REPOSITORIES, {
+	const {data, error, loading } = useQuery(GET_REPOSITORIES, {
 		fetchPolicy: 'cache-and-network',
 		variables: {orderBy, orderDirection, searchKeyword}
 	});
@@ -21,7 +21,7 @@ const useRepositories = ({orderBy, orderDirection, searchKeyword}) => {
 	}, [loading, error, data]);
 	
 
-	return { repositories, loading, error};
+	return { repositories, loading, error };
 };
 
 export default useRepositories;

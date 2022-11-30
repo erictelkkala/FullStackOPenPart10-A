@@ -58,7 +58,7 @@ export class RepositoryListContainer extends React.Component {
 				ListHeaderComponent={this.renderHeader}
 				ItemSeparatorComponent={ItemSeparator}
 				renderItem={({ item }) => <RepositoryItem item={item} />}
-				keyExtractor={item => item.fullName}
+				keyExtractor={item => item.fullName}	
 			/>
 		);
 	}
@@ -71,7 +71,11 @@ const RepositoryList = () => {
 	const [debouncedSearchQuery] = useDebounce(searchQuery, 500);
 
 	// Query the API with arguments
-	const { repositories, loading } = useRepositories({ orderBy: orderBy[0], orderDirection: orderBy[1], searchKeyword: debouncedSearchQuery });
+	const { repositories, loading } = useRepositories({
+		orderBy: orderBy[0],
+		orderDirection: orderBy[1],
+		searchKeyword: debouncedSearchQuery,
+	});
 	// console.log(repositories);
 
 
